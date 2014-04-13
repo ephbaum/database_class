@@ -55,7 +55,7 @@ class Db
 	*/
   private function Connect()
   {
-    $this->settings = parse_ini_file( "db.settings.ini.remote.php" );
+    $this->settings = parse_ini_file( "db.settings.ini.local.php" );
     $mysql = 'mysql:dbname='.$this->settings["dbname"].';host='.$this->settings["host"].'';
     try 
     {
