@@ -6,6 +6,8 @@ $db = new Db();
 
 $connectionStatus = ( $db->isConnected() ) ? 'Successful' : 'Unsuccessful';
 
+return;
+
 function getRandomString( $length ) {
 
   /* build character set to use */

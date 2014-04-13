@@ -31,7 +31,7 @@ require_once('action.php');
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a class="#" href="index.html"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-user"></i> User</a></li>
+            <li><a href="#sCRUD"><i class="glyphicon glyphicon-user"></i> sCRUD</a></li>
             <li><a href="#"><i class="glyphicon glyphicon-envelope"></i> Contact</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -55,14 +55,42 @@ require_once('action.php');
           </div>
         </div>
         <hr>
+        <!-- <div class="row">
+          <div class="col-sm-12"> -->
+            <!-- loopy loopy over the crap we stuff into that array earlier  -->
+            <?php // foreach($data as $elem) {
+              //echo "<p>$elem<p>";
+              //}?>
+          <!-- </div>
+        </div>
+        <hr> -->
         <div class="row">
           <div class="col-sm-12">
-            <!-- loopy loopy over the crap we stuff into that array earlier  -->
-            <?php foreach($data as $elem) {
-              echo "<p>$elem<p>";
-            }?>
+            <h3>Simple sCRUD stuff</h3>
+          </div>          
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Create</h4>            
           </div>
         </div>
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="form-group">
+              <label for="insertValue" class="col-sm-3 control-label">Content to Insert</label>
+              <div class="col-sm-9">
+                <input type="text" name="insertValue" id="insertValue" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2 col-sm-offset-3">
+                <button type="button" id="insertSubmit" class="btn btn-primary">Insert</button>
+              </div>
+            </div>
+        </form>
         <hr>
         <footer>
           <div class="row">
@@ -75,5 +103,6 @@ require_once('action.php');
 
     <script src="lib/js/jquery-1.11.0.min.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>
