@@ -67,29 +67,113 @@ require_once('action.php');
         <div class="row">
           <div class="col-sm-12">
             <h3>Simple sCRUD stuff</h3>
-          </div>          
+          </div>
         </div>
         <hr>
         <div class="row">
           <div class="col-sm-12">
-            <h4>Create</h4>            
+            <h4>Create</h4>
+            <p>Create means to create...</p>
           </div>
         </div>
         <form class="form-horizontal" role="form">
           <div class="row">
             <div class="form-group">
-              <label for="insertValue" class="col-sm-3 control-label">Content to Insert</label>
+              <label for="insertValue" class="col-sm-3 control-label">Content to Create</label>
               <div class="col-sm-9">
-                <input type="text" name="insertValue" id="insertValue" class="form-control">
+                <input type="text" class="form-control" name="insertValue" id="insertValue">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="form-group">
               <div class="col-sm-2 col-sm-offset-3">
-                <button type="button" id="insertSubmit" class="btn btn-primary">Insert</button>
+                <button type="button" id="insertSubmit" class="btn btn-primary">Create</button>
               </div>
             </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Read</h4>
+            <p>Read means to read...</p>
+          </div>
+        </div>
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="form-group">
+              <label for="readValue" class="col-sm-3 control-label">Value to Find</label>
+              <div class="col-sm-9">
+                <input type="text" name="readValue" id="readValue" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2 col-sm-offset-3">
+                <button type="button" id="readValueSubmit">Read Value</button>
+              </div>
+              <div class="col-sm-2">
+                <button type="button" id="readSubmit">Read</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Update</h4>
+            <p>Update means to update...</p>
+          </div>
+        </div>
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="form-group">
+              <label for="updateValue" class="col-sm-3 control-label">Content to Update</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="updateValue" id="updateValue">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label for="updateNewValue" class="col-sm-3 control-label">Update to</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="updateNewValue" id="updateNewValue">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2 col-sm-offset-3">
+                <button type="button" class="btn btn-primary" id="updateSubmit">Update</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Delete</h4>
+            <p>Delete means to delete...</p>
+          </div>
+        </div>
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="form-group">
+              <label for="deleteValue" class="col-sm-3 control-label">Value to Delete</label>
+              <div class="col-sm-9">
+                <input type="text" name="deleteValue" id="deleteValue" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2 col-sm-offset-3">
+                <button type="button" class="btn btn-primary" id="deleteSubmit">Delete</button>
+              </div>
+            </div>
+          </div>
         </form>
         <hr>
         <footer>

@@ -5,7 +5,7 @@ require_once('Log.php');
 /**
  *  DB - database class 
  *
- *  Author - F. Stephen Kischbaum
+ *  @author F. Stephen Kischbaum
  *
  */
 
@@ -55,7 +55,7 @@ class Db
 	*/
   private function Connect()
   {
-    $this->settings = parse_ini_file( "db.settings.ini.local.php" );
+    $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.local.php" );
     $mysql = 'mysql:dbname='.$this->settings["dbname"].';host='.$this->settings["host"].'';
     try 
     {
@@ -69,7 +69,7 @@ class Db
       $this->pdo->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
 
       # Connection succeeded, great success!
-      $this->dbconnected = true;
+      $this->dbconnected = true; 
     }
     catch ( PDOException $e )
     {
@@ -260,8 +260,8 @@ class Db
     }
 
     # Write into log
-    $this->log->write($message);
-
+    //$this->log->write($message);
+    error_log($exception);
     return $exception;
   }			
 }

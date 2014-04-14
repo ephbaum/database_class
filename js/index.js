@@ -60,11 +60,12 @@ $( document ).ready( function() {
           url: 'ajax/ajax.php',
           success: function( data, status, request ) {
             console.dir( arguments );
+            console.log( data );
           },
           error: function( request, status ) {
             console.dir( arguments );
           }
-        }); 
+        }, 'json'); 
       } else {
         console.error( 'Cannot submit ' + value + ' it is not an object it is a(n) ' + typeof value );
       }
