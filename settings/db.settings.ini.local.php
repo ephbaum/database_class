@@ -1,6 +1,6 @@
 ;<?php return; ?>
 [SQL]
 host = localhost
-user = echo
-password = echo
-dbname = app-platform
+user = user
+password = password
+dbname = dbname
