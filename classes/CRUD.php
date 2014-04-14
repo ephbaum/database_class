@@ -8,10 +8,9 @@
    * @package default
    * @author F. Stephen Kirschbaum
    **/
-  
+    
   class CRUD
   {
-    
     /**
      * search function
      * 
@@ -43,7 +42,7 @@
     public function create( $value )
     {
       $db = new Db();
-      $sql = "INSERT INTO noise (noise) VALUES ('$value')";
+      $sql = "INSERT INTO noise (data) VALUES ('$value')";
       $response = $db->query( $sql );
       return $response;
       $db->CloseConnection();
@@ -109,18 +108,4 @@
     
     
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 ?>
