@@ -111,10 +111,10 @@ require_once('action.php');
           <div class="row">
             <div class="form-group">
               <div class="col-sm-2 col-sm-offset-3">
-                <button type="button" id="readValueSubmit">Read Value</button>
+                <button type="button" id="readValueSubmit" class="btn btn-primary">Read Value</button>
               </div>
               <div class="col-sm-2">
-                <button type="button" id="readSubmit">Read</button>
+                <button type="button" id="readSubmit" class="btn btn-primary">Read</button>
               </div>
             </div>
           </div>
