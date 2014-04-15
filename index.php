@@ -119,6 +119,12 @@ require_once('action.php');
             </div>
           </div>
         </form>
+        <div id="readResults" class="row" style="display: none;">
+          <div class="col-sm-9 col-sm-offset-3">
+            <table id="readInsert" class="table table-striped">
+            </table>
+          </div>
+        </div>
         <hr>
         <div class="row">
           <div class="col-sm-12">

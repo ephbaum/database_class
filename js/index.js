@@ -25,7 +25,7 @@ $( document ).ready( function() {
             url: 'ajax/ajax.php',
             success: function( data, status, request ) {
               console.log( 'ajax success: ' + data );
-              return data;
+              crud.callback( data );
             },
             error: function( request, status ) {
               console.log( 'ajax error: ' + status );
@@ -43,23 +43,20 @@ $( document ).ready( function() {
         if ( response === 'error' || response === 'invalid' ){
           console.error( 'error in request' );
         } else {
-          console.dir( response );
+          return response;
         }
       },
       read: function() {
         var read = { read: true };
-        var response = this.ajax( read, 'GET' );        
+        this.requestType = 'read';
+        this.ajax( read, 'GET' );
       },
       search: function( params ) {
         if ( typeof params === 'object' ) {
-          var response = this.ajax( params, 'POST' );
+          this.reqeustType = 'read';
+          this.ajax( params, 'POST' );
         } else {
           console.error( 'There was an error with your request' );
-        }
-        if ( response === 'error' || response === 'invalid' ){
-          console.error( 'error in request' );
-        } else {
-          console.dir( response );
         }
       },
       update: function( params ) {
@@ -67,7 +64,7 @@ $( document ).ready( function() {
         if ( response === 'error' || response === 'invalid' ){
           console.error( 'error in request' );
         } else {
-          console.dir( response );
+          return response;
         }
       },
       delete: function( params ) {
@@ -75,9 +72,24 @@ $( document ).ready( function() {
         if ( response === 'error' || response === 'invalid' ){
           console.error( 'error in request' );
         } else {
-          console.dir( response );
+          return response;
         }
-      }
+      },
+      callback: function( data ) {
+        data = JSON.parse( data );
+        if ( this.requestType === 'read' ) {
+          $( '#readResults' ).fadeOut( 'fast' );
+          $( '#readInsert' ).html( '' );
+          var html = '<thead><tr><th>id</th><th>data</th></tr></thead>\n<tbody>\n';
+          data.forEach( function( el, idx, arr ) {
+            html += '<tr><td>' + el.id + '</td><td>' + el.data + '</td></tr>\n';
+          });
+          html += '</tbody>\n'
+          $( '#readInsert').append(html);
+          $( '#readResults' ).fadeIn();
+        }
+      },
+      requestType: ''
     };
 
     /**
@@ -89,7 +101,7 @@ $( document ).ready( function() {
       var value = $( '#insertValue' ).val();
       if ( value !== '' ) {
         var postParams = { create: value };
-        crud.create( postParams );
+        result = crud.create( postParams );
         $( '#insertValue' ).val( '' );
       }
     });
@@ -99,21 +111,21 @@ $( document ).ready( function() {
         var value = $( '#insertValue' ).val();
         if ( value !== '' ) {
           var postParams = { create: value };
-          crud.create( postParams );
+          result = crud.create( postParams );
           $( '#insertValue' ).val( '' );
         }
       }
     });
     $( '#readSubmit' ).on( 'click', function( e ) {
       e.preventDefault();
-      crud.read();
+      window.result = crud.read();
     });
     $( '#readValueSubmit').on( 'click', function( e ) {
       e.preventDefault();
       var value = $( '#readValue' ).val();
       if ( value !== '' ) {
         var postParams = { search: value };
-        crud.search( postParams );
+        result = crud.search( postParams );
         $( '#readValue' ).val( '' );
       }
     });
@@ -123,7 +135,7 @@ $( document ).ready( function() {
         var value = $( '#readValue' ).val();
         if ( value !== '' ) {
           var postParams = { search: value };
-          crud.search( postParams );
+          result = crud.search( postParams );
           $( '#readValue' ).val( '' );
         }
       }
@@ -134,7 +146,7 @@ $( document ).ready( function() {
       var newValue = $( '#updateNewValue' ).val();
       if ( value !== '' && newValue !== '' ) {
         postParams = { update: value, to: newValue };
-        crud.update( postParams );
+        result = crud.update( postParams );
         $( '#updateValue, #updateNewValue' ).val( '' );
       }
     });
@@ -144,7 +156,7 @@ $( document ).ready( function() {
         var newValue = $( '#updateNewValue' ).val();
         if ( value !== '' && newValue !== '' ) {
           postParams = { update: value, to: newValue };
-          crud.update( postParams );
+          result = crud.update( postParams );
           $( '#updateValue, #updateNewValue' ).val( '' );
         }
       }
@@ -154,7 +166,7 @@ $( document ).ready( function() {
       var value = $( '#deleteValue' ).val();
       if ( value !== '' ) {
         var postParams = { delete: value };
-        crud.delete( postParams );
+        result = crud.delete( postParams );
         $( '#deleteValue' ).val( '' );
       }
     });
@@ -164,11 +176,10 @@ $( document ).ready( function() {
         var value = $( '#deleteValue' ).val();
         if ( value !== '' ) {
           var postParams = { delete: value };
-          crud.delete( postParams );
+          result = crud.delete( postParams );
           $( '#deleteValue' ).val( '' );
         }
       }
     });
-
   })();
 });
