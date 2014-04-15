@@ -80,7 +80,7 @@
     public function update( $value, $update )
     {
       $db = new Db();
-      $sql = "UPDATE noise WHERE data='$value' WHERE data='$update' ";
+      $sql = "UPDATE noise SET data='$update' WHERE data='$value'";
       $response = $db->query( $sql );
       return $response;
       $db->CloseConnection();
