@@ -38,13 +38,8 @@ $( document ).ready( function() {
         }
       },
       create: function( params ) {
-        var response = this.ajax( params, 'POST' );
-        console.log( response );
-        if ( response === 'error' || response === 'invalid' ){
-          console.error( 'error in request' );
-        } else {
-          return response;
-        }
+        this.requestType = 'create';
+        this.ajax( params, 'POST' );
       },
       read: function() {
         var read = { read: true };
@@ -52,31 +47,22 @@ $( document ).ready( function() {
         this.ajax( read, 'GET' );
       },
       search: function( params ) {
-        if ( typeof params === 'object' ) {
-          this.reqeustType = 'read';
-          this.ajax( params, 'POST' );
-        } else {
-          console.error( 'There was an error with your request' );
-        }
+        this.reqeustType = 'read';
+        this.ajax( params, 'POST' );
       },
       update: function( params ) {
-        var response = this.ajax( params, 'POST' );
-        if ( response === 'error' || response === 'invalid' ){
-          console.error( 'error in request' );
-        } else {
-          return response;
-        }
+        this.requestType = 'update';
+        this.ajax( params, 'POST' );
       },
       delete: function( params ) {
-        var response = this.ajax( params, 'POST' );
-        if ( response === 'error' || response === 'invalid' ){
-          console.error( 'error in request' );
-        } else {
-          return response;
-        }
+        this.requestType = 'delete';
+        this.ajax( params, 'POST' );
       },
       callback: function( data ) {
         data = JSON.parse( data );
+        if ( this.requestType === 'create' || this.requestType === 'update' || this.requestType === 'delete' ) {
+          console.log( data );
+        }
         if ( this.requestType === 'read' ) {
           $( '#readResults' ).fadeOut( 'fast' );
           $( '#readInsert' ).html( '' );
