@@ -55,15 +55,6 @@ require_once('action.php');
           </div>
         </div>
         <hr>
-        <!-- <div class="row">
-          <div class="col-sm-12"> -->
-            <!-- loopy loopy over the crap we stuff into that array earlier  -->
-            <?php // foreach($data as $elem) {
-              //echo "<p>$elem<p>";
-              //}?>
-          <!-- </div>
-        </div>
-        <hr> -->
         <div class="row">
           <div class="col-sm-12">
             <h3>Simple sCRUD stuff</h3>
