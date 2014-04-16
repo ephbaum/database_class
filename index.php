@@ -1,5 +1,5 @@
 <?php
-require_once('action.php');
+require_once 'includes/action.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,8 @@ require_once('action.php');
     <meta name="description" content="PDO Database Connection Demo">
     <meta name="author" content="F. Stephen Kirschbaum">
 
-    <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
     
     </head>
@@ -49,8 +50,8 @@ require_once('action.php');
         <div class="row">
           <div class="col-sm-12">
             <h3>What's all this then?</h3>
-            <p>This is an example of a simple database connector written in PHP using BootStrap with jQuery for the front-end. The primary purpose for this to exist is to provide an example of a working database abstraction class that allows simple operation in an application that isn't completely dependant on PHP. The reason this was created was for use with smaller webhosts that don't provide a great deal of low-level access to PHP code so that installing a functional framework isn't always possible as well as for use with smaller applications that may not need all the script overhead. The idea is that this should be lean and mean while still being simple and functional.</p>
-            <p>The source for this project is located on <a href="http://github.com/fskirschbaum/database_class/" target="_blank">github</a>. Feel free to check it out, fork it, modify it, whatever you'd like. If you have some suggestions for improvements, I'm quite open to them.</p> 
+            <p>This is an example of a simple database connector written in PHP using BootStrap with jQuery for the <i class="fa fa-html5"></i> front-end. The primary purpose for this to exist is to provide an example of a working database abstraction class that allows simple operation in an application that isn't completely dependant on PHP. The reason this was created was for use with smaller webhosts that don't provide a great deal of low-level access to PHP code so that installing a functional framework isn't always possible as well as for use with smaller applications that may not need all the script overhead. The idea is that this should be lean and mean while still being simple and functional.</p>
+            <p>The source for this project is located on <a href="http://github.com/fskirschbaum/database_class/" target="_blank"><i class="fa fa-github-alt"></i> github</a>. Feel free to check it out, fork it, modify it, whatever you'd like. If you have some suggestions for improvements, I'm quite open to them.</p> 
           </div>
         </div>
         
@@ -122,17 +123,23 @@ require_once('action.php');
         <div class="col-sm-12">
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label for="insertValue" class="col-sm-2 control-label">Create Value</label>
+              <label for="createValue" class="col-sm-2 control-label">Create Value</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="insertValue" id="insertValue">
+                <input type="text" class="form-control" name="insertValue" id="createValue">
               </div>
             </div>
             <div class="form-group">
               <div class="col-sm-2 col-sm-offset-2">
-                <button type="button" id="insertSubmit" class="btn btn-primary btn-block">Create</button>
+                <button type="button" id="createSubmit" class="btn btn-primary btn-block">Create</button>
               </div>
             </div>
           </form>
+        </div>
+      </div>
+      
+      <div class="row" id="createResults" style="display: none">
+        <div class="col-sm-10 col-sm-offset-2">
+          <p id="createInsert" class="alert-success"></p>
         </div>
       </div>
 
@@ -209,6 +216,11 @@ require_once('action.php');
           </div>
         </form>
       </div>
+      <div class="row" id="updateResults" style="display: none">
+        <div class="col-sm-10 col-sm-offset-2">
+          <p id="updateInsert" class="alert-success"></p>
+        </div>
+      </div>
       
       <hr>
         
@@ -218,7 +230,7 @@ require_once('action.php');
           <p class="visible-xs hidden-sm hidden-md hidden-lg"><strong>Delete</strong></p>
         </div>
         <div class="col-sm-10">
-          <p>To delete an existing value from the database, simply enter the value you want deleted in the box below and then click the 'Delete' button. Be warned that this will blindly delete <em>all</em> instances of that value in the database.</p>
+          <p>To delete an existing value from the database, simply enter the value you want deleted in the box below and then click the 'Delete' button. Be warned that this will blindly delete <em>all</em> instances of that value in the database. If you'd like to clear the entire <span id="deleteAll">database</span> of all content you can click the first use of the word database in this sentence and then confirm when the dialog appears. This cannot be undone.</p>
         </div>
       </div>
       <div class="row">
@@ -238,6 +250,11 @@ require_once('action.php');
           </div>
         </form>
       </div>
+      <div class="row" id="deleteResults" style="display: none">
+        <div class="col-sm-10 col-sm-offset-2">
+          <p id="deleteInsert" class="alert-success"></p>
+        </div>
+      </div>
       
       <hr>
       
@@ -247,12 +264,17 @@ require_once('action.php');
           <p>Who am I? Who are you?!? Seriously, though... there are plenty of ways to get a hold of me... if you want... </p>
         </div>
       </div>
+      <div class="row text-center">
+        <div class="col-xs-4"><a href="http://twitter.com/fyrephlie" target="_blank"><i class="fa fa-twitter-square fa-5x"></i></a></div>
+        <div class="col-xs-4"><a href="http://github.com/fskirschbaum" target="_blank"><i class="fa fa-github-square fa-5x"></i></a></div>
+        <div class="col-xs-4"><a href="http://doginflight.com/fskirschbaum/" target="_blank"><i class="fa fa-globe fa-5x"></i></a></div>
+      </div>
       
       <hr>
       
       <footer>
         <div class="row">
-          <div class="col-sm-10 col-sm-offset-2 footer text-center">
+          <div class="col-sm-8 col-sm-offset-2 footer text-center">
             <p>All content copyright &copy; 2014 F. Stephen Kirschbaum...</p>
             <p class="text-muted">Except any code or content that doesn't already belong to me, which is copyright &copy; the respective owners of said code / content.</p>
             <p>All rights reserved.</p>

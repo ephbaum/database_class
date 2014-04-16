@@ -5,7 +5,6 @@
   /**
    * CRUD class
    *
-   * @package default
    * @author F. Stephen Kirschbaum
    **/
     
@@ -17,7 +16,7 @@
      * here's where we search for stuff
      * this may not be necessary... I could so something else with this.
      *
-     * @return void
+     * @return string
      * @author F. Stephen Kirschbaum
      **/
     public function search( $value )
@@ -35,7 +34,7 @@
      * we want to insert something into a table on the database
      * we need to check if that thing already exists, if it does, fail
      *
-     * @return void
+     * @return string
      * @author F. Stephen Kirschbaum
      **/
     
@@ -54,7 +53,7 @@
      * what is in the table right now?
      * let's find out.
      *
-     * @return void
+     * @return string
      * @author F. Stephen Kirschbaum
      **/
 
@@ -73,7 +72,7 @@
      * 
      * let's update something in db with something else
      *
-     * @return void
+     * @return string
      * @author F. Stephen Kirschbaum
      **/
     
@@ -93,13 +92,33 @@
      * now it's time to delete something from the database
      * that's fun, right?
      *
-     * @return void
+     * @return string
      * @author F. Stephen Kirschbaum
      **/
     public function delete( $delete )
     {
       $db = new Db();
       $sql = "DELETE FROM noise WHERE data='$delete'";
+      $response = $db->query( $sql );
+      return $response;
+      $db->CloseConnection();
+      $db = null;
+    }
+    
+    /**
+     * delete_all function
+     *
+     * now it's time to delete everything from the database
+     * boy, this is some dangerous stuff right here!!!
+     *
+     * @return string
+     * @author F. Stephen Kirschbaum
+     **/
+    
+    public function delete_all( )
+    {
+      $db = new Db();
+      $sql = "DELETE FROM noise";
       $response = $db->query( $sql );
       return $response;
       $db->CloseConnection();

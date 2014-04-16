@@ -47,7 +47,7 @@ $( document ).ready( function() {
         this.ajax( read, 'GET' );
       },
       search: function( params ) {
-        this.reqeustType = 'read';
+        this.requestType = 'search';
         this.ajax( params, 'POST' );
       },
       update: function( params ) {
@@ -58,13 +58,32 @@ $( document ).ready( function() {
         this.requestType = 'delete';
         this.ajax( params, 'POST' );
       },
-      callback: function( data ) {
-        data = JSON.parse( data );
-        if ( this.requestType === 'create' || this.requestType === 'update' || this.requestType === 'delete' ) {
+      delete_all: function() {
+        var deleteItAll = { delete_all: true };
+        this.requestType = 'delete'
+        this.ajax( deleteItAll, "POST" );
+      },
+      callback: function( response ) {
+        var data = JSON.parse( response );
+        var type = this.requestType;
+
+        if ( type === 'create' || type === 'update' || type === 'delete' ) {
+          $( '#'+type+'Submit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
           console.log( data );
+          var html = 'Successfully '+type+'d ' + data + ' database entr' + (( data == 1 ) ? 'y' : 'ies') + '.';
+          $( '#'+type+'Insert' ).html( html );
+          $( '#'+type+'Results' ).fadeIn( function() {
+            setTimeout( function() { 
+              $( '#'+type+'Submit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
+              $( '#'+type+'Results' ).fadeOut( 'fast' );
+              $( '#'+type+'Insert' ).html('');
+            }, 2000);
+          });
         }
-        if ( this.requestType === 'read' ) {
-          $( '#readResults' ).fadeOut( 'fast' );
+        if ( type === 'read' || type === 'search' ) {
+          if ( type === 'read' ) $( '#readSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
+          if ( type === 'search' ) $( '#readValueSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
+          $( '#readResults:visible' ).fadeOut( 'fast' );
           $( '#readInsert' ).html( '' );
           var html = '<thead><tr><th>id</th><th>data</th></tr></thead>\n<tbody>\n';
           data.forEach( function( el, idx, arr ) {
@@ -72,8 +91,11 @@ $( document ).ready( function() {
           });
           html += '</tbody>\n'
           $( '#readInsert').append(html);
-          $( '#readResults' ).fadeIn();
-        }
+          $( '#readResults' ).fadeIn( function() {
+            if ( type === 'read' ) $( '#readSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
+            if ( type === 'search' ) $( '#readValueSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
+          });
+        }        
       },
       requestType: ''
     };
@@ -82,36 +104,36 @@ $( document ).ready( function() {
      * Add listeners
      **/
 
-    $( '#insertSubmit' ).on( 'click', function( e ) { 
+    $( '#createSubmit' ).on( 'click', function( e ) { 
       e.preventDefault();
-      var value = $( '#insertValue' ).val();
+      var value = $( '#createValue' ).val();
       if ( value !== '' ) {
         var postParams = { create: value };
         result = crud.create( postParams );
-        $( '#insertValue' ).val( '' );
+        $( '#createValue' ).val( '' );
       }
     });
-    $( '#insertValue' ).on( 'keydown', function( e ) {
+    $( '#createValue' ).on( 'keydown', function( e ) {
       if ( e.which === 13 ){
         e.preventDefault();
-        var value = $( '#insertValue' ).val();
+        var value = $( '#createValue' ).val();
         if ( value !== '' ) {
           var postParams = { create: value };
           result = crud.create( postParams );
-          $( '#insertValue' ).val( '' );
+          $( '#createValue' ).val( '' );
         }
       }
     });
     $( '#readSubmit' ).on( 'click', function( e ) {
       e.preventDefault();
-      window.result = crud.read();
+      crud.read();
     });
     $( '#readValueSubmit').on( 'click', function( e ) {
       e.preventDefault();
       var value = $( '#readValue' ).val();
       if ( value !== '' ) {
         var postParams = { search: value };
-        result = crud.search( postParams );
+        crud.search( postParams );
         $( '#readValue' ).val( '' );
       }
     });
@@ -121,7 +143,7 @@ $( document ).ready( function() {
         var value = $( '#readValue' ).val();
         if ( value !== '' ) {
           var postParams = { search: value };
-          result = crud.search( postParams );
+          crud.search( postParams );
           $( '#readValue' ).val( '' );
         }
       }
@@ -132,7 +154,7 @@ $( document ).ready( function() {
       var newValue = $( '#updateNewValue' ).val();
       if ( value !== '' && newValue !== '' ) {
         postParams = { update: value, to: newValue };
-        result = crud.update( postParams );
+        crud.update( postParams );
         $( '#updateValue, #updateNewValue' ).val( '' );
       }
     });
@@ -142,7 +164,7 @@ $( document ).ready( function() {
         var newValue = $( '#updateNewValue' ).val();
         if ( value !== '' && newValue !== '' ) {
           postParams = { update: value, to: newValue };
-          result = crud.update( postParams );
+          crud.update( postParams );
           $( '#updateValue, #updateNewValue' ).val( '' );
         }
       }
@@ -152,7 +174,7 @@ $( document ).ready( function() {
       var value = $( '#deleteValue' ).val();
       if ( value !== '' ) {
         var postParams = { delete: value };
-        result = crud.delete( postParams );
+        crud.delete( postParams );
         $( '#deleteValue' ).val( '' );
       }
     });
@@ -162,10 +184,16 @@ $( document ).ready( function() {
         var value = $( '#deleteValue' ).val();
         if ( value !== '' ) {
           var postParams = { delete: value };
-          result = crud.delete( postParams );
+          crud.delete( postParams );
           $( '#deleteValue' ).val( '' );
         }
       }
     });
+    $( '#deleteAll' ).on( 'click', function( e ) {
+      e.preventDefault();
+      if (window.confirm( "Are you sure you want to delete everything in the database?" )) {
+        crud.delete_all();
+      }
+    })
   })();
 });

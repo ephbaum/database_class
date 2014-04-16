@@ -18,3 +18,16 @@ body {
  margin-top: 0.5em;
  margin-bottom: 0.5em; 
 }
+
+/*
+  Add a transition to the button class because it's awesome
+  When there are transitions and animations and things.
+*/
+
+.btn {
+  -webkit-transition: background 0.5s linear;
+  -moz-transition: background 0.5s linear;
+  -ms-transition: background 0.5s linear;
+  -o-transition: background 0.5s linear;
+  transition: background 0.5s linear;
+}

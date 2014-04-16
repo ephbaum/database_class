@@ -1,6 +1,6 @@
 <?php
 
-require_once('Log.php');
+require_once 'Log.php';
 
 /**
  *  DB - database class 
