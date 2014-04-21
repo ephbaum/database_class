@@ -185,7 +185,7 @@ class Db
 
   /**
   *
-  * If the SQL query  contains a SELECT statement it returns an array containing all of the result set row
+  * If the SQL query contains a SELECT statement it returns an array containing all of the result set row
   *	If the SQL statement is a DELETE, INSERT, or UPDATE statement it returns the number of affected rows
   *
   */			

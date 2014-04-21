@@ -70,7 +70,7 @@ $( document ).ready( function() {
         if ( type === 'create' || type === 'update' || type === 'delete' ) {
           $( '#'+type+'Submit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
           console.log( data );
-          var html = 'Successfully '+type+'d ' + data + ' database entr' + (( data == 1 ) ? 'y' : 'ies') + '.';
+          var html = 'Successfully '+type+'d ' + data.data + ' database entr' + (( data == 1 ) ? 'y' : 'ies') + '.';
           $( '#'+type+'Insert' ).html( html );
           $( '#'+type+'Results' ).fadeIn( function() {
             setTimeout( function() { 
