@@ -42,10 +42,26 @@
     {
       $db = new Db();
       $sql = "INSERT INTO noise (data) VALUES ('$value')";
-      $response = $db->query( $sql );
+      $result = $db->query( $sql );
+      $lastInsertId = $this->getLastInsertId($db);
+      $response = array('data' => $result, 'lastId' => $lastInsertId);
       return $response;
       $db->CloseConnection();
       $db = null;
+    }
+
+    /**
+     * get last insert id function
+     * we want to get the auto incremented id of the last inserted record
+     *
+     * @return int
+     * @author Nicholas Kreidberg (@niczak)
+     *
+     */
+
+    public function getLastInsertId($db) 
+    {
+      return $db->lastInsertId();
     }
     
     /**

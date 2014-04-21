@@ -29,6 +29,9 @@ class Db
 
 	# SQL query parameters
 	private $parameters;
+
+  # parameter to override connect method, null for local, !empty for socket
+  private $type = 'socket';
 		
   /***
 	*   Default Constructor 
@@ -40,8 +43,10 @@ class Db
   ***/
   public function __construct()
   { 			
+    # uncomment out this line to connect via socket
+
     $this->log = new Log();	
-    $this->Connect();
+    $this->Connect($this->type);
     $this->parameters = array();
   }
 	
@@ -53,14 +58,22 @@ class Db
 	*	3. Tries to connect to the database.
 	*	4. If connection failed, exception is displayed and a log file gets created.
 	*/
-  private function Connect()
+  private function Connect($type = 'local')
   {
-    $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.local.php" );
-    $mysql = 'mysql:dbname='.$this->settings["dbname"].';host='.$this->settings["host"].'';
+    if($type == 'local') {
+
+      $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.local.php" );
+      $mySqlInit = 'mysql:dbname='.$this->settings["dbname"].';host='.$this->settings["host"].'';
+    } else {
+
+      $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.socket.php" );
+      $mySqlInit = "mysql:unix_socket={$this->settings['socket']};dbname={$this->settings['dbname']}";
+    }
+
     try 
     {
       # Read settings from INI file, set UTF8
-      $this->pdo = new PDO( $mysql, $this->settings["user"], $this->settings["password"], array( PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ) );
+      $this->pdo = new PDO( $mySqlInit, $this->settings["user"], $this->settings["password"], array( PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ) );
 
       # We can now log any exceptions on Fatal error. 
       $this->pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -111,7 +124,7 @@ class Db
     # Connect to database
     if ( !$this->dbconnected ) 
     { 
-      $this->Connect();
+      $this->Connect($this->type);
     }
     try 
     {
