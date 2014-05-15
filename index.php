@@ -14,7 +14,7 @@ require_once 'includes/action.php';
     <link rel="stylesheet" href="lib/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
-    
+
     </head>
 
     <body>
@@ -39,33 +39,33 @@ require_once 'includes/action.php';
         </div><!-- /.navbar-collapse -->
       </nav>
       <div class="container">
-        
+
         <div class="jumbotron">
           <h2><small>Agnostic</small><br>
             PDO Database Connector</h2>
         </div>
-        
+
         <hr>
-        
+
         <div class="row">
           <div class="col-sm-12">
             <h3>What's all this then?</h3>
             <p>This is an example of a simple database connector written in PHP using BootStrap with jQuery for the <i class="fa fa-html5"></i> front-end. The primary purpose for this to exist is to provide an example of a working database abstraction class that allows simple operation in an application that isn't completely dependant on PHP. The reason this was created was for use with smaller webhosts that don't provide a great deal of low-level access to PHP code so that installing a functional framework isn't always possible as well as for use with smaller applications that may not need all the script overhead. The idea is that this should be lean and mean while still being simple and functional.</p>
-            <p>The source for this project is located on <a href="http://github.com/fskirschbaum/database_class/" target="_blank"><i class="fa fa-github-alt"></i> github</a>. Feel free to check it out, fork it, modify it, whatever you'd like. If you have some suggestions for improvements, I'm quite open to them.</p> 
+            <p>The source for this project is located on <a href="http://github.com/fskirschbaum/database_class/" target="_blank"><i class="fa fa-github-alt"></i> github</a>. Feel free to check it out, fork it, modify it, whatever you'd like. If you have some suggestions for improvements, I'm quite open to them.</p>
           </div>
         </div>
-        
+
         <hr>
-        
+
         <div class="row">
           <div class="col-sm-12 text-center">
             <!-- here's where we log connection status... -->
             <p><span class="text-muted">Database connection status is: </span><?=$connectionStatus?></p>
           </div>
         </div>
-        
+
         <hr>
-        
+
         <div id="sCRUD" class="row">
           <div class="col-sm-6">
             <h4>sCRUD</h4>
@@ -107,9 +107,9 @@ require_once 'includes/action.php';
           </table>
         </div>
       </div>
-        
+
       <hr>
-        
+
       <div class="row">
         <div class="col-sm-2">
           <p class="text-right hidden-xs visible-sm visible-md visible-lg"><strong>Create</strong></p>
@@ -136,7 +136,7 @@ require_once 'includes/action.php';
           </form>
         </div>
       </div>
-      
+
       <div class="row" id="createResults" style="display: none">
         <div class="col-sm-10 col-sm-offset-2">
           <p id="createInsert" class="alert-success"></p>
@@ -144,7 +144,7 @@ require_once 'includes/action.php';
       </div>
 
       <hr>
-        
+
       <div class="row">
         <div class="col-sm-2">
           <p class="text-right hidden-xs visible-sm visible-md visible-lg"><strong>Read</strong></p>
@@ -221,9 +221,9 @@ require_once 'includes/action.php';
           <p id="updateInsert" class="alert-success"></p>
         </div>
       </div>
-      
+
       <hr>
-        
+
       <div class="row">
         <div class="col-sm-2">
           <p class="text-right hidden-xs visible-sm visible-md visible-lg"><strong>Delete</strong></p>
@@ -255,9 +255,9 @@ require_once 'includes/action.php';
           <p id="deleteInsert" class="alert-success"></p>
         </div>
       </div>
-      
+
       <hr>
-      
+
       <div class="row" id="contact">
         <div class="col-sm-12">
           <h4>Contact Me</h4>
@@ -265,17 +265,17 @@ require_once 'includes/action.php';
         </div>
       </div>
       <div class="row text-center">
-        <div class="col-xs-4"><a href="http://twitter.com/fyrephlie" target="_blank"><i class="fa fa-twitter-square fa-5x"></i></a></div>
+        <div class="col-xs-4"><a href="http://twitter.com/fskirschbaum" target="_blank"><i class="fa fa-twitter-square fa-5x"></i></a></div>
         <div class="col-xs-4"><a href="http://github.com/fskirschbaum" target="_blank"><i class="fa fa-github-square fa-5x"></i></a></div>
         <div class="col-xs-4"><a href="http://doginflight.com/fskirschbaum/" target="_blank"><i class="fa fa-globe fa-5x"></i></a></div>
       </div>
-      
+
       <hr>
-      
+
       <footer>
         <div class="row">
           <div class="col-sm-8 col-sm-offset-2 footer text-center">
-            <p>All content copyright &copy; 2014 F. Stephen Kirschbaum...</p>
+            <p>Made with <i class="fa fa-heart"></i> and is &copy; 2014 F. Stephen Kirschbaum...</p>
             <p class="text-muted">Except any code or content that doesn't already belong to me, which is copyright &copy; the respective owners of said code / content.</p>
             <p>All rights reserved.</p>
           </div>

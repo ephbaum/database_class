@@ -2,28 +2,24 @@
   why?!? because bs3 isn't smart enough to pad body if
   using fixed navbar.
 */
-
-body { 
-  padding-top: 70px; 
+body {
+  padding-top: 70px;
 }
-
 
 /*
   col-margin: extra markup to add a touch of space
-  between elements when columns collapse. 
+  between elements when columns collapse.
   why is this not part of bs3 by default?
 */
-
 .col-margin {
  margin-top: 0.5em;
- margin-bottom: 0.5em; 
+ margin-bottom: 0.5em;
 }
 
 /*
   Add a transition to the button class because it's awesome
   When there are transitions and animations and things.
 */
-
 .btn {
   -webkit-transition: background 0.5s linear;
   -moz-transition: background 0.5s linear;

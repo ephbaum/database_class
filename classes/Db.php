@@ -3,7 +3,7 @@
 require_once 'Log.php';
 
 /**
- *  DB - database class 
+ *  DB - database class
  *
  *  @author F. Stephen Kischbaum
  *
@@ -24,17 +24,17 @@ class Db
   # database connection state
 	private $dbconnected = false;
 
-	# object for logging exceptions	
+	# object for logging exceptions
 	private $log;
 
 	# SQL query parameters
 	private $parameters;
 
-  # parameter to override connect method, null for local, !empty for socket
+  # parameter to override connect method, local for local, !empty for socket
   private $type = 'socket';
-		
+
   /***
-	*   Default Constructor 
+	*   Default Constructor
 	*
 	*	1. Instantiate Log class.
 	*	2. Connect to database.
@@ -42,47 +42,45 @@ class Db
 	*
   ***/
   public function __construct()
-  { 			
+  {
     # uncomment out this line to connect via socket
 
-    $this->log = new Log();	
+    $this->log = new Log();
     $this->Connect($this->type);
     $this->parameters = array();
   }
-	
+
   /**
 	*	This method makes connection to the database.
-	*	
-	*	1. Reads the database settings from a ini file. 
+	*
+	*	1. Reads the database settings from a ini file.
 	*	2. Puts  the ini content into the settings array.
 	*	3. Tries to connect to the database.
 	*	4. If connection failed, exception is displayed and a log file gets created.
 	*/
   private function Connect($type = 'local')
   {
-    if($type == 'local') {
-
+    if ($type == 'local') {
       $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.local.php" );
       $mySqlInit = 'mysql:dbname='.$this->settings["dbname"].';host='.$this->settings["host"].'';
     } else {
-
       $this->settings = parse_ini_file( $_SERVER['DOCUMENT_ROOT']."/settings/db.settings.ini.socket.php" );
       $mySqlInit = "mysql:unix_socket={$this->settings['socket']};dbname={$this->settings['dbname']}";
     }
 
-    try 
+    try
     {
       # Read settings from INI file, set UTF8
       $this->pdo = new PDO( $mySqlInit, $this->settings["user"], $this->settings["password"], array( PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ) );
 
-      # We can now log any exceptions on Fatal error. 
+      # We can now log any exceptions on Fatal error.
       $this->pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
       # Disable emulation of prepared statements, use REAL prepared statements instead. Not md5(real) strings.
       $this->pdo->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
 
       # Connection succeeded, great success!
-      $this->dbconnected = true; 
+      $this->dbconnected = true;
     }
     catch ( PDOException $e )
     {
@@ -91,47 +89,47 @@ class Db
       die();
     }
   }
-  
-  /***
-  * This pointlessly returns if the connection was successful
-  ***/
+
+  /**
+  * This (almost) pointlessly returns if the connection was successful
+  **/
   public function isConnected()
   {
     return $this->dbconnected;
   }
 
-  /***
+  /**
   * Close DB connection.
-  ***/
+  **/
   public function CloseConnection()
   {
     # Set the PDO object to null to close the connection
     $this->pdo = null;
   }
 
-  /***
+  /**
   *	Every method which needs to execute a SQL query uses this method.
-  *	
+  *
   *	1. If not connected, connect to the database.
   *	2. Prepare Query.
   *	3. Parameterize Query.
-  *	4. Execute Query.	
+  *	4. Execute Query.
   *	5. On exception : Write Exception into the log + SQL query.
   *	6. Reset the Parameters.
-  ***/	
+  **/
   private function Init( $query, $parameters = "" )
   {
     # Connect to database
-    if ( !$this->dbconnected ) 
-    { 
+    if ( !$this->dbconnected )
+    {
       $this->Connect($this->type);
     }
-    try 
+    try
     {
       # Prepare query
       $this->sqlQuery = $this->pdo->prepare( $query );
 
-      # Add parameters to the parameter array	
+      # Add parameters to the parameter array
       $this->bindMore( $parameters );
 
       # Bind parameters
@@ -141,11 +139,11 @@ class Db
         {
           $parameters = explode( "\x7F", $param );
           $this->sqlQuery->bindParam( $parameters[0], $parameters[1] );
-        }		
+        }
       }
 
       # Execute SQL
-      $this->success = $this->sqlQuery->execute();		
+      $this->success = $this->sqlQuery->execute();
     }
     catch( PDOException $e )
     {
@@ -156,27 +154,24 @@ class Db
     # Reset the parameters
     $this->parameters = array();
   }
-		
+
   /**
-  *
   *	Add the parameter to the parameter array
-  *
-  */	
+  **/
   public function bind( $para, $value )
-  {	
+  {
     $this->parameters[sizeof( $this->parameters )] = ":" . $para . "\x7F" . $value;
   }
 
-  /***
-  *
+  /**
   *	Add more parameters to the parameter array
-  ***/
+  **/
   public function bindMore( $parray )
   {
-    if(empty( $this->parameters ) && is_array( $parray )) 
+    if(empty( $this->parameters ) && is_array( $parray ))
     {
       $columns = array_keys( $parray );
-      foreach( $columns as $i => &$column )	
+      foreach( $columns as $i => &$column )
       {
         $this->bind( $column, $parray[$column] );
       }
@@ -184,11 +179,9 @@ class Db
   }
 
   /**
-  *
   * If the SQL query contains a SELECT statement it returns an array containing all of the result set row
   *	If the SQL statement is a DELETE, INSERT, or UPDATE statement it returns the number of affected rows
-  *
-  */			
+  **/
   public function query( $query, $params = null, $fetchmode = PDO::FETCH_ASSOC )
   {
     $query = trim( $query );
@@ -202,31 +195,31 @@ class Db
     {
       return $this->sqlQuery->fetchAll( $fetchmode );
     }
-    elseif ( $statement === 'insert' ||  $statement === 'update' || $statement === 'delete' ) 
+    elseif ( $statement === 'insert' ||  $statement === 'update' || $statement === 'delete' )
     {
-      return $this->sqlQuery->rowCount();	
-    }	
+      return $this->sqlQuery->rowCount();
+    }
     else
     {
       return NULL;
     }
   }
-		
-  /***
-  *  Returns the last inserted id.
-  ***/	
-  public function lastInsertId() 
+
+  /**
+  * Returns the last inserted id.
+  **/
+  public function lastInsertId()
   {
     return $this->pdo->lastInsertId();
   }
-		
-  /***
-  *	Returns an array which represents a column from the result set 
-  ***/	
+
+  /**
+  *	Returns an array which represents a column from the result set
+  **/
   public function column( $query, $params = null )
   {
     $this->Init( $query, $params );
-    $Columns = $this->sqlQuery->fetchAll( PDO::FETCH_NUM );		
+    $Columns = $this->sqlQuery->fetchAll( PDO::FETCH_NUM );
 
     $column = null;
 
@@ -237,45 +230,45 @@ class Db
 
   return $column;
 
-  }	
-
-  /***
-  *	Returns an array which represents a row from the result set 
-  ***/	
-  public function row( $query, $params = null, $fetchmode = PDO::FETCH_ASSOC )
-  {				
-    $this->Init( $query, $params );
-    return $this->sqlQuery->fetch( $fetchmode );			
   }
 
-  /***
+  /**
+  *	Returns an array which represents a row from the result set
+  **/
+  public function row( $query, $params = null, $fetchmode = PDO::FETCH_ASSOC )
+  {
+    $this->Init( $query, $params );
+    return $this->sqlQuery->fetch( $fetchmode );
+  }
+
+  /**
   *	Returns the value of one single field/column
-  ***/	
+  **/
   public function single( $query, $params = null )
   {
     $this->Init( $query, $params );
     return $this->sqlQuery->fetchColumn();
   }
 
-  /***
+  /**
   * Writes the log and returns the exception
-  ***/
+  **/
   private function ExceptionLog( $message, $sql = "" )
   {
     $exception  = 'Unhandled Exception. <br />';
     $exception .= $message;
     $exception .= "<br /> You can find the error back in the log.";
 
-    if( !empty( $sql ) )
+    if ( !empty( $sql ) )
     {
       # Add the Raw SQL to the Log
       $message .= "\r\nRaw SQL : "  . $sql;
     }
 
     # Write into log
-    //$this->log->write($message);
+    $this->log->write($message);
     error_log($exception);
     return $exception;
-  }			
+  }
 }
 ?>

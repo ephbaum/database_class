@@ -1,39 +1,35 @@
 /**
- * We're using $.ready for everything because... jQuery.
+ * We do this because... jQuery.
  **/
 
-$( document ).ready( function() {
-
+$( function() {
   /**
    * We're wrapping all things in an anonymous function because
    * they're just... just so neat.
    **/
-  
+
   ( function() {
     /**
      * Here be an object called crud... it does things, many things.
-     * Mostly it handles the $.ajax requests for the CRUD functions. 
+     * Mostly it handles the $.ajax requests for the CRUD functions.
      **/
 
     var crud = {
-      
+
       ajax: function( params, method ) {
         if ( typeof params === 'object' ) {
           $.ajax( {
-            type: method, 
+            type: method,
             data: params,
             url: 'ajax/ajax.php',
             success: function( data, status, request ) {
-              console.log( 'ajax success: ' + data );
               crud.callback( data );
             },
             error: function( request, status ) {
-              console.log( 'ajax error: ' + status );
               return status;
             }
-          }, 'json'); 
+          }, 'json');
         } else {
-          console.log( 'invalid' );
           return 'invalid';
         }
       },
@@ -60,20 +56,20 @@ $( document ).ready( function() {
       },
       delete_all: function() {
         var deleteItAll = { delete_all: true };
-        this.requestType = 'delete'
+        this.requestType = 'delete';
         this.ajax( deleteItAll, "POST" );
       },
       callback: function( response ) {
-        var data = JSON.parse( response );
-        var type = this.requestType;
+        var data = JSON.parse( response ),
+            type = this.requestType,
+            html;
 
         if ( type === 'create' || type === 'update' || type === 'delete' ) {
           $( '#'+type+'Submit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
-          console.log( data );
-          var html = 'Successfully '+type+'d ' + data.data + ' database entr' + (( data == 1 ) ? 'y' : 'ies') + '.';
+          html = 'Successfully '+type+'d ' + data.data + ' database entr' + (( data === 1 ) ? 'y' : 'ies') + '.';
           $( '#'+type+'Insert' ).html( html );
           $( '#'+type+'Results' ).fadeIn( function() {
-            setTimeout( function() { 
+            setTimeout( function() {
               $( '#'+type+'Submit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
               $( '#'+type+'Results' ).fadeOut( 'fast' );
               $( '#'+type+'Insert' ).html('');
@@ -85,26 +81,26 @@ $( document ).ready( function() {
           if ( type === 'search' ) $( '#readValueSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
           $( '#readResults:visible' ).fadeOut( 'fast' );
           $( '#readInsert' ).html( '' );
-          var html = '<thead><tr><th>id</th><th>data</th></tr></thead>\n<tbody>\n';
+          html = '<thead><tr><th>id</th><th>data</th></tr></thead>\n<tbody>\n';
           data.forEach( function( el, idx, arr ) {
             html += '<tr><td>' + el.id + '</td><td>' + el.data + '</td></tr>\n';
           });
-          html += '</tbody>\n'
-          $( '#readInsert').append(html);
+          html += '</tbody>\n';
+          $( '#readInsert').append( html );
           $( '#readResults' ).fadeIn( function() {
             if ( type === 'read' ) $( '#readSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
             if ( type === 'search' ) $( '#readValueSubmit' ).toggleClass( 'btn-primary' ).toggleClass( 'btn-success' );
           });
-        }        
+        }
       },
       requestType: ''
     };
 
     /**
-     * Add listeners
+     * Various listeners
      **/
 
-    $( '#createSubmit' ).on( 'click', function( e ) { 
+    $( '#createSubmit' ).on( 'click', function( e ) {
       e.preventDefault();
       var value = $( '#createValue' ).val();
       if ( value !== '' ) {
@@ -150,8 +146,8 @@ $( document ).ready( function() {
     });
     $( '#updateSubmit' ).on( 'click', function( e ) {
       e.preventDefault();
-      var value = $( '#updateValue' ).val();
-      var newValue = $( '#updateNewValue' ).val();
+      var value = $( '#updateValue' ).val(),
+          newValue = $( '#updateNewValue' ).val();
       if ( value !== '' && newValue !== '' ) {
         postParams = { update: value, to: newValue };
         crud.update( postParams );
@@ -160,8 +156,8 @@ $( document ).ready( function() {
     });
     $( '#updateValue, #updateNewValue' ).on( 'keydown', function( e ) {
       if ( e.which === 13 ){
-        var value = $( '#updateValue' ).val();
-        var newValue = $( '#updateNewValue' ).val();
+        var value = $( '#updateValue' ).val(),
+            newValue = $( '#updateNewValue' ).val();
         if ( value !== '' && newValue !== '' ) {
           postParams = { update: value, to: newValue };
           crud.update( postParams );
@@ -191,9 +187,9 @@ $( document ).ready( function() {
     });
     $( '#deleteAll' ).on( 'click', function( e ) {
       e.preventDefault();
-      if (window.confirm( "Are you sure you want to delete everything in the database?" )) {
+      if ( window.confirm( "Are you sure you want to delete everything in the database?" ) ) {
         crud.delete_all();
       }
-    })
+    });
   })();
 });

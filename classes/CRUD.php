@@ -1,18 +1,18 @@
 <?php
 
   require_once 'Db.php';
-    
+
   /**
    * CRUD class
    *
    * @author F. Stephen Kirschbaum (@fskirschbaum)
    **/
-    
+
   class CRUD
   {
     /**
      * search function
-     * 
+     *
      * here's where we search for stuff
      * this may not be necessary... I could so something else with this.
      *
@@ -28,7 +28,7 @@
       $db->CloseConnection();
       $db = null;
     }
-    
+
     /**
      * create function
      * we want to insert something into a table on the database
@@ -37,7 +37,7 @@
      * @return array
      * @author F. Stephen Kirschbaum (@fskirschbaum)
      **/
-    
+
     public function create( $value )
     {
       $db = new Db();
@@ -59,11 +59,11 @@
      *
      */
 
-    public function getLastInsertId($db) 
+    public function getLastInsertId($db)
     {
       return $db->lastInsertId();
     }
-    
+
     /**
      * read function
      * what is in the table right now?
@@ -82,16 +82,16 @@
       $db->CloseConnection();
       $db = null;
     }
-    
+
     /**
      * update function
-     * 
+     *
      * let's update something in db with something else
      *
      * @return int
      * @author F. Stephen Kirschbaum (@fskirschbaum)
      **/
-    
+
     public function update( $value, $update )
     {
       $db = new Db();
@@ -101,7 +101,7 @@
       $db->CloseConnection();
       $db = null;
     }
-    
+
     /**
      * delete function
      *
@@ -120,7 +120,7 @@
       $db->CloseConnection();
       $db = null;
     }
-    
+
     /**
      * delete_all function
      *
@@ -130,7 +130,7 @@
      * @return int
      * @author F. Stephen Kirschbaum (@fskirschbaum)
      **/
-    
+
     public function delete_all( )
     {
       $db = new Db();
@@ -140,7 +140,6 @@
       $db->CloseConnection();
       $db = null;
     }
-    
-    
+
   }
 ?>

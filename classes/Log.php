@@ -1,21 +1,21 @@
-<?php 
-  /***
-	* Log 			
+<?php
+  /**
+	* Log
   * A logger class which creates logs when an exception is thrown.
 	* Author - F. Stephen Kirschbaum
-	***/
-  
+	**/
+
 	class Log {
-			
+
 		    # @string, Log directory name
 		    	private $path = '/logs/';
-			
+
 		    # @void, Default Constructor, Sets the timezone and path of the log files.
 			public function __construct() {
-				date_default_timezone_set('US/Central');	
-				$this->path  = dirname(__FILE__)  . $this->path;	
+				date_default_timezone_set('US/Central');
+				$this->path  = dirname(__FILE__)  . $this->path;
 			}
-			
+
 		   /**
 		    *	Creates the log
 		    *
@@ -26,13 +26,13 @@
 		    *	 4. Logname is current date(Year - Month - Day).
 		    *	 5. If log exists, edit method called.
 		    *	 6. Edit method modifies the current log.
-		    */	
+		    **/
 			public function write($message) {
 				$date = new DateTime();
 				$log = $this->path . $date->format('Y-m-d').".txt";
 
-				if(is_dir($this->path)) {
-					if(!file_exists($log)) {
+				if (is_dir($this->path)) {
+					if (!file_exists($log)) {
 						$fh  = fopen($log, 'a+') or die("Fatal Error !");
 						$logcontent = "Time : " . $date->format('H:i:s')."\r\n" . $message ."\r\n";
 						fwrite($fh, $logcontent);
@@ -43,15 +43,15 @@
 					}
 				}
 				else {
-					  if(mkdir($this->path,0777) === true) 
+					  if(mkdir($this->path,0777) === true)
 					  {
- 						 $this->write($message);  
-					  }	
+ 						 $this->write($message);
+					  }
 				}
 			 }
-			
-			/** 
-			 *  Called if log exists. 
+
+			/**
+			 *  Called if log exists.
 			 *  Modifies current log and adds the message to the log.
 			 *
 			 * $log
